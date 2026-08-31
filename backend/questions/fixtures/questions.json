@@ -1,0 +1,191 @@
+[
+  {
+    "model": "questions.question",
+    "pk": 1,
+    "fields": {
+      "subject": "Structure of Personality",
+      "text": "How do you usually respond when you feel a strong desire that goes against social norms?",
+      "order": 1
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 2,
+    "fields": {
+      "subject": "Structure of Personality",
+      "text": "How do you manage immediate impulses that could lead to negative consequences?",
+      "order": 2
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 3,
+    "fields": {
+      "subject": "Structure of Personality",
+      "text": "Can you recall a situation where you felt torn between what you wanted to do and what you thought you should do?",
+      "order": 3
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 4,
+    "fields": {
+      "subject": "Psychosexual Development",
+      "text": "What are your most vivid childhood memories? Did any of them have a strong emotional impact?",
+      "order": 4
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 5,
+    "fields": {
+      "subject": "Psychosexual Development",
+      "text": "How would you describe your relationship with your caregivers during your early years?",
+      "order": 5
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 6,
+    "fields": {
+      "subject": "Psychosexual Development",
+      "text": "At what stage of life do you feel your personality developed the most?",
+      "order": 6
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 7,
+    "fields": {
+      "subject": "Defense Mechanisms",
+      "text": "How do you usually cope with extreme stress?",
+      "order": 7
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 8,
+    "fields": {
+      "subject": "Defense Mechanisms",
+      "text": "Can you recall a time when you rationalized an emotional reaction?",
+      "order": 8
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 9,
+    "fields": {
+      "subject": "Defense Mechanisms",
+      "text": "Have you noticed recurring patterns in your relationships? Please describe them.",
+      "order": 9
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 10,
+    "fields": {
+      "subject": "Unconscious and Dreams",
+      "text": "Do you have any recurring dreams or dreams you’ve never forgotten? Please describe one.",
+      "order": 10
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 11,
+    "fields": {
+      "subject": "Unconscious and Dreams",
+      "text": "Are there symbols, images, or themes that often appear in your dreams?",
+      "order": 11
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 12,
+    "fields": {
+      "subject": "Unconscious and Dreams",
+      "text": "Have you ever acted or reacted in a way you couldn’t rationally explain? What happened?",
+      "order": 12
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 13,
+    "fields": {
+      "subject": "Repression and Trauma",
+      "text": "Is there an experience from your past that you tend to avoid thinking or talking about?",
+      "order": 13
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 14,
+    "fields": {
+      "subject": "Repression and Trauma",
+      "text": "How do you deal with painful or uncomfortable memories?",
+      "order": 14
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 15,
+    "fields": {
+      "subject": "Repression and Trauma",
+      "text": "Have you ever experienced physical discomfort without a clear medical explanation? In what context?",
+      "order": 15
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 16,
+    "fields": {
+      "subject": "Sexuality and Desire",
+      "text": "How would you describe your relationship with your own sexuality?",
+      "order": 16
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 17,
+    "fields": {
+      "subject": "Sexuality and Desire",
+      "text": "Have you noticed any patterns in your romantic or sexual relationships?",
+      "order": 17
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 18,
+    "fields": {
+      "subject": "Sexuality and Desire",
+      "text": "How do you balance personal desires with social expectations?",
+      "order": 18
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 19,
+    "fields": {
+      "subject": "Complexes and Relationships",
+      "text": "How do you react when you feel rejected by someone important to you?",
+      "order": 19
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 20,
+    "fields": {
+      "subject": "Complexes and Relationships",
+      "text": "What traits do you seek—or avoid—in authority figures?",
+      "order": 20
+    }
+  },
+  {
+    "model": "questions.question",
+    "pk": 21,
+    "fields": {
+      "subject": "Complexes and Relationships",
+      "text": "Do you see any similarities between how you relate to your parents and how you relate to other significant people in your life?",
+      "order": 21
+    }
+  }
+]
