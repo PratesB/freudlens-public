@@ -135,7 +135,3 @@ MAILERS = {
 # Django Cross-Origin Resource Sharing (CORS) Headers
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=Csv())
 
-
-# GEMINI AI API
-GEMINI_API_KEY=config('GEMINI_API_KEY')
-GEMINI_MODEL=config('GEMINI_MODEL')
