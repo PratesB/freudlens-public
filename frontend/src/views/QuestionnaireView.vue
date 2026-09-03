@@ -24,10 +24,16 @@
           @validated="handleApiKeyValidated" 
         />
         
+        <!-- State 2: Configuration -->
+        <ConfigStep 
+          v-else-if="currentStep === 2" 
+          @configured="handleConfigured" 
+        />
+
         <!-- Placeholders for future phases -->
-        <div v-else-if="currentStep === 2" class="text-center py-20">
-          <h2 class="text-2xl font-bold">Phase 2: Choose Psychoanalyst and Language</h2>
-          <p class="text-slate-500 mt-2">Your API Key is validated. Coming soon...</p>
+        <div v-else-if="currentStep === 3" class="text-center py-20">
+          <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-600 mb-3">Phase 3: The Assessment</h2>
+          <p class="text-slate-500 mt-2">Analyst configured. The session will begin shortly...</p>
         </div>
       </Transition>
     </main>
@@ -37,6 +43,7 @@
 <script setup>
 import { ref } from 'vue'
 import ApiKeyStep from '../components/questionnaire/ApiKeyStep.vue'
+import ConfigStep from '../components/questionnaire/ConfigStep.vue'
 
 // State
 const currentStep = ref(1)
@@ -52,6 +59,13 @@ const handleApiKeyValidated = (key) => {
   sessionData.value.apiKey = key
   // Advance to Phase 2 (Config)
   currentStep.value = 2
+}
+
+const handleConfigured = (config) => {
+  sessionData.value.model = config.modelName
+  sessionData.value.language = config.language
+  // Advance to Phase 3 (Questions)
+  currentStep.value = 3
 }
 </script>
 
