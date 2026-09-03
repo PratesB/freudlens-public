@@ -4,8 +4,20 @@ const API_BASE_URL = 'http://localhost:8000/api'
 export const apiService = {
   async validateApiKey(apiKey) {
     try {
-      // Temporary mock for local validation:
-      return apiKey.length > 10
+      const response = await fetch(`${API_BASE_URL}/analysis/validate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ api_key: apiKey })
+      });
+      
+      if (!response.ok) {
+        return false;
+      }
+      
+      const data = await response.json();
+      return data.is_valid;
     } catch (error) {
       console.error("Error validating key", error)
       return false
