@@ -20,8 +20,13 @@
 
       <!-- CTA & Mobile Menu Toggle -->
       <div class="flex items-center gap-3">
-        <button @click="start" class="cursor-pointer text-sm bg-gradient-to-r from-blue-700 to-blue-900 hover:from-blue-600 hover:to-blue-800 text-white font-medium py-2 px-6 rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:shadow-[0_0_20px_rgba(34,211,238,0.4)] border border-blue-500/30 hover:scale-105">
-          Start Analysis
+        <button @click="start" class="group relative overflow-hidden cursor-pointer text-[10px] sm:text-xs uppercase tracking-[0.15em] bg-[#03091e] hover:bg-[#051033] text-white font-medium py-2.5 px-6 rounded-full transition-all duration-500 border border-blue-500/30 hover:border-blue-400/60 shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_25px_rgba(59,130,246,0.4)]">
+          <span class="relative z-10 flex items-center gap-2">
+            Begin Session
+            <svg class="w-3.5 h-3.5 text-blue-400 group-hover:translate-x-1 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
+          <!-- Subtle inner glow -->
+          <div class="absolute inset-0 bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md pointer-events-none"></div>
         </button>
         
         <!-- Hamburger Button -->
