@@ -30,11 +30,11 @@
           @configured="handleConfigured" 
         />
 
-        <!-- Placeholders for future phases -->
-        <div v-else-if="currentStep === 3" class="text-center py-20">
-          <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 to-blue-600 mb-3">Phase 3: The Assessment</h2>
-          <p class="text-slate-500 mt-2">Analyst configured. The session will begin shortly...</p>
-        </div>
+        <!-- State 3: The Questions -->
+        <QuestionsStep 
+          v-else-if="currentStep === 3" 
+          @completed="handleQuestionsCompleted" 
+        />
       </Transition>
     </main>
   </div>
@@ -44,6 +44,7 @@
 import { ref } from 'vue'
 import ApiKeyStep from '../components/questionnaire/ApiKeyStep.vue'
 import ConfigStep from '../components/questionnaire/ConfigStep.vue'
+import QuestionsStep from '../components/questionnaire/QuestionsStep.vue'
 
 // State
 const currentStep = ref(1)
@@ -64,8 +65,16 @@ const handleApiKeyValidated = (key) => {
 const handleConfigured = (config) => {
   sessionData.value.model = config.modelName
   sessionData.value.language = config.language
+  
   // Advance to Phase 3 (Questions)
   currentStep.value = 3
+}
+
+const handleQuestionsCompleted = (answers) => {
+  sessionData.value.answers = answers
+  
+  // Advance to Phase 4 (Submit/Report)
+  currentStep.value = 4
 }
 </script>
 

@@ -26,12 +26,11 @@ export const apiService = {
 
   async fetchQuestions() {
     try {
-      // Temporary mock:
-      return [
-        { id: 1, text: "Question 1" },
-        { id: 2, text: "Question 2" },
-        { id: 3, text: "Question 3" }
-      ]
+      const response = await fetch(`${API_BASE_URL}/questions/`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch questions');
+      }
+      return await response.json();
     } catch (error) {
       console.error("Error fetching questions", error)
       return []
