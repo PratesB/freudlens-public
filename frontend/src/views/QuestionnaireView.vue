@@ -1,12 +1,12 @@
 <template>
-  <div class="bg-[#020617] min-h-screen text-slate-100 overflow-x-hidden selection:bg-blue-500/30 pt-12 pb-12 relative z-0">
+  <div class="bg-[#020617] min-h-screen flex flex-col text-slate-100 overflow-x-hidden selection:bg-blue-500/30 relative z-0">
     <!-- Background Gradients to match HomeHero -->
     <div class="fixed inset-0 pointer-events-none z-[-1]">
       <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]"></div>
       <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-400/5 rounded-full blur-[100px]"></div>
     </div>
     
-    <main class="container mx-auto px-4 max-w-4xl relative z-10">
+    <main class="container mx-auto px-4 max-w-4xl relative z-10 flex-grow pt-12 pb-24">
       <!-- Back to Home Link (Hidden on Print) -->
       <div class="mb-12 print:hidden">
         <router-link to="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#020617] border border-blue-900/50 text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] font-medium text-sm">
@@ -44,6 +44,11 @@
         />
       </Transition>
     </main>
+
+    <!-- Global Footer (Hidden on Print) -->
+    <div class="print:hidden mt-auto w-full">
+      <AppFooter />
+    </div>
   </div>
 </template>
 
@@ -53,6 +58,7 @@ import ApiKeyStep from '../components/questionnaire/ApiKeyStep.vue'
 import ConfigStep from '../components/questionnaire/ConfigStep.vue'
 import QuestionsStep from '../components/questionnaire/QuestionsStep.vue'
 import ReportStep from '../components/questionnaire/ReportStep.vue'
+import AppFooter from '../components/layout/AppFooter.vue'
 
 // State
 const currentStep = ref(1)
