@@ -130,7 +130,7 @@
         </div>
 
         <!-- Submit Button -->
-        <div class="max-w-md mx-auto">
+        <div class="max-w-md mx-auto mb-8">
           <div class="group/button relative rounded-xl p-[1px] overflow-hidden shadow-[0_0_20px_rgba(59,130,246,0.1)] mt-4">
             <!-- Spinning light border on hover -->
             <div class="absolute top-1/2 left-1/2 w-[200%] aspect-square -translate-x-1/2 -translate-y-1/2 animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_0%,#3b82f6_50%,transparent_100%)] opacity-0 group-hover/button:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
@@ -148,6 +148,16 @@
               </span>
             </button>
           </div>
+        </div>
+
+        <!-- Medical Disclaimer -->
+        <div class="max-w-3xl mx-auto text-[9px] sm:text-[10px] text-slate-500/80 leading-relaxed font-sans text-justify md:text-center mt-12 pt-6 border-t border-slate-800/60 transition-opacity hover:opacity-100 opacity-70">
+          <strong class="text-slate-400 uppercase tracking-widest font-semibold mr-1">Disclaimer of Liability:</strong> 
+          FreudLens is an experimental software portfolio project developed solely to demonstrate artificial intelligence and large language model integration. 
+          The content generated herein is entirely automated, simulated, and fictional. IT DOES NOT CONSTITUTE professional medical advice, psychological evaluation, 
+          psychiatric diagnosis, therapy, or treatment. The creator(s) expressly disclaim any and all liability for decisions or actions taken based on this output. 
+          By using this application, you acknowledge that this is a technical demonstration with absolutely no medical, clinical, or scientific validity. 
+          If you are experiencing psychological distress, seek assistance from a licensed healthcare professional immediately.
         </div>
       </form>
     </div>
