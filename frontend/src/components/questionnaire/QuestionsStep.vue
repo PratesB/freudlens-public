@@ -227,6 +227,12 @@ const handleNext = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 }
+
+// Expose internal navigation to parent
+defineExpose({
+  canGoBack: computed(() => currentThemeIndex.value > 0),
+  goBack: prevTheme
+})
 </script>
 
 <style scoped>
