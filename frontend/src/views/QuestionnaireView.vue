@@ -7,8 +7,8 @@
     </div>
     
     <main class="container mx-auto px-4 max-w-4xl relative z-10">
-      <!-- Back to Home Link -->
-      <div class="mb-12">
+      <!-- Back to Home Link (Hidden on Print) -->
+      <div class="mb-12 print:hidden">
         <router-link to="/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#020617] border border-blue-900/50 text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] font-medium text-sm">
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -35,6 +35,13 @@
           v-else-if="currentStep === 3" 
           @completed="handleQuestionsCompleted" 
         />
+
+        <!-- State 4: The Final Report -->
+        <ReportStep 
+          v-else-if="currentStep === 4" 
+          :sessionData="sessionData"
+          @restart="currentStep = 1"
+        />
       </Transition>
     </main>
   </div>
@@ -45,6 +52,7 @@ import { ref } from 'vue'
 import ApiKeyStep from '../components/questionnaire/ApiKeyStep.vue'
 import ConfigStep from '../components/questionnaire/ConfigStep.vue'
 import QuestionsStep from '../components/questionnaire/QuestionsStep.vue'
+import ReportStep from '../components/questionnaire/ReportStep.vue'
 
 // State
 const currentStep = ref(1)

@@ -37,12 +37,27 @@ export const apiService = {
     }
   },
 
-  async generateAnalysis(apiKey, answers) {
+  async generateAnalysis(apiKey, modelName, language, answers) {
     try {
-      // Temporary mock
-      return {
-        report: "Analysis will be here"
+      const response = await fetch(`${API_BASE_URL}/analysis/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          api_key: apiKey,
+          model_name: modelName,
+          language: language,
+          answers: answers
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to generate analysis');
       }
+
+      return await response.json();
     } catch (error) {
       console.error("Error generating analysis", error)
       throw error
