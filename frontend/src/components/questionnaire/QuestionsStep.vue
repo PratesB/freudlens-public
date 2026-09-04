@@ -97,9 +97,9 @@
           <button 
             type="button"
             @click="prevTheme"
-            :class="currentThemeIndex === 0 ? 'invisible' : 'visible'"
-            class="px-6 py-3 text-slate-400 hover:text-slate-200 transition-colors text-sm uppercase tracking-widest font-medium cursor-pointer"
+            class="group flex items-center gap-2 px-6 py-3 text-slate-400 hover:text-slate-200 transition-all duration-300 text-sm uppercase tracking-widest font-medium cursor-pointer"
           >
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1" :class="currentPalette.textPrimary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
             Previous
           </button>
 
@@ -147,7 +147,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { apiService } from '../../services/api'
 
-const emit = defineEmits(['completed'])
+const emit = defineEmits(['completed', 'back'])
 
 const isLoading = ref(true)
 const themes = ref([])
@@ -232,6 +232,8 @@ const prevTheme = () => {
   if (currentThemeIndex.value > 0) {
     currentThemeIndex.value--
     showError.value = false
+  } else {
+    emit('back')
   }
 }
 

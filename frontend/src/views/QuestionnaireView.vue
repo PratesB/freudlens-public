@@ -11,39 +11,41 @@
     <main class="container mx-auto px-4 max-w-4xl relative z-10 flex-grow pt-6 sm:pt-12 pb-24">
       
       <!-- Top Navigation Controls (In document flow, prevents overlap) -->
-      <div class="w-full flex justify-between items-center mb-6 sm:mb-8 print:hidden min-h-[40px]">
-        
-        <!-- Left Side: Back Button -->
-        <div>
-          <button 
-            v-if="currentStep > 1 && currentStep < 4" 
-            @click="handleBack" 
-            class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#020617] border border-blue-900/50 text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] font-medium text-sm group cursor-pointer"
-          >
-            <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Previous Step
-          </button>
-        </div>
+      <div class="w-full flex justify-end items-center mb-6 sm:mb-8 print:hidden min-h-[40px]">
+        <!-- Exit / Back Button (X) -->
+        <router-link 
+          v-if="currentStep === 1" 
+          to="/" 
+          class="flex items-center justify-center w-10 h-10 rounded-full bg-[#020617] border border-blue-900/50 text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-pointer"
+          title="Exit Session"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </router-link>
 
-        <!-- Right Side: Exit Button -->
-        <div>
-          <router-link 
-            v-if="currentStep === 1" 
-            to="/" 
-            class="flex items-center justify-center w-10 h-10 rounded-full bg-[#020617] border border-blue-900/50 text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-pointer"
-            title="Exit Session"
-          >
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </router-link>
-        </div>
+        <button 
+          v-else-if="currentStep === 2" 
+          @click="currentStep = 1"
+          class="flex items-center justify-center w-10 h-10 rounded-full bg-[#020617] border border-blue-900/50 text-blue-400 hover:bg-blue-900/30 hover:text-blue-300 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-pointer"
+          title="Back to API Key"
+        >
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       <!-- State 1: API Key Validation -->
-      <Transition name="fade" mode="out-in">
+      <Transition 
+        enter-active-class="transition-all duration-300 ease-out"
+        leave-active-class="transition-all duration-300 ease-in"
+        enter-from-class="opacity-0 translate-y-2"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 translate-y-2"
+        mode="out-in"
+      >
         <ApiKeyStep 
           v-if="currentStep === 1" 
           @validated="handleApiKeyValidated" 
@@ -60,6 +62,7 @@
           v-else-if="currentStep === 3" 
           ref="questionsStepRef"
           @completed="handleQuestionsCompleted" 
+          @back="currentStep = 2"
         />
 
         <!-- State 4: The Final Report -->
@@ -96,14 +99,7 @@ const sessionData = ref({
   answers: []
 })
 
-// Handlers
-const handleBack = () => {
-  if (currentStep.value === 3 && questionsStepRef.value && questionsStepRef.value.canGoBack) {
-    questionsStepRef.value.goBack()
-  } else {
-    currentStep.value--
-  }
-}
+// Navigation is now handled by components emitting events or local state
 
 const handleApiKeyValidated = (key) => {
   sessionData.value.apiKey = key
@@ -127,15 +123,3 @@ const handleQuestionsCompleted = (answers) => {
 }
 </script>
 
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(10px);
-}
-</style>
