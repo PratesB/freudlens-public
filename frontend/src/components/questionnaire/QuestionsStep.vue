@@ -235,12 +235,4 @@ defineExpose({
 })
 </script>
 
-<style scoped>
-@keyframes idleScan {
-  0%, 100% { left: -50%; }
-  50% { left: 150%; }
-}
-.animate-idle-scan {
-  animation: idleScan 4s ease-in-out infinite;
-}
-</style>
+

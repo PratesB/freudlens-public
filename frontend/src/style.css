@@ -1,5 +1,39 @@
 @import "tailwindcss";
 
+@theme {
+  --animate-idle-scan: idleScan 4s ease-in-out infinite;
+  
+  @keyframes idleScan {
+    0%, 100% { left: -50%; }
+    50% { left: 150%; }
+  }
+}
+
+/* Global print styles to override Tailwind background and navbar */
+@media print {
+  body {
+    background-color: white !important;
+    background-image: none !important;
+  }
+  
+  #app {
+    display: block !important;
+  }
+  
+  /* Hide the navbar from App.vue if any, and hide background effects */
+  header, nav, .print\:hidden {
+    display: none !important;
+  }
+
+  /* Reset padding/margins for printing */
+  .report-paper {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}
+
 /* Scroll Reveal Animations */
 .reveal-on-scroll {
   opacity: 0;

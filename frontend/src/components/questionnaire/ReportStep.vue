@@ -183,30 +183,3 @@ const printReport = () => {
   window.print()
 }
 </script>
-
-<style>
-/* Global print styles to hide everything except the report */
-@media print {
-  body {
-    background-color: white !important;
-    background-image: none !important;
-  }
-  
-  #app {
-    display: block !important;
-  }
-  
-  /* Hide the navbar from App.vue if any, and hide background effects */
-  header, nav, .print\:hidden {
-    display: none !important;
-  }
-
-  /* Reset padding/margins for printing */
-  .report-paper {
-    box-shadow: none !important;
-    border: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-}
-</style>
