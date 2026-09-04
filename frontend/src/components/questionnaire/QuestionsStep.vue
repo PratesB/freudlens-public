@@ -56,14 +56,34 @@
             >
               {{ q.text }}
             </label>
-            <textarea
-              :id="`q-${q.id}`"
-              v-model="answersMap[q.id]"
-              rows="4"
-              class="w-full bg-[#020617]/50 border border-slate-700/50 text-slate-100 rounded-xl px-5 py-4 transition-all duration-500 outline-none shadow-inner placeholder:text-slate-600 resize-none font-light leading-relaxed focus:ring-2"
-              :class="currentPalette.focus"
-              placeholder="Write your thoughts here..."
-            ></textarea>
+            <div class="relative">
+              <textarea
+                :id="`q-${q.id}`"
+                v-model="answersMap[q.id]"
+                rows="4"
+                class="w-full bg-[#020617]/50 border border-slate-700/50 text-slate-100 rounded-xl px-5 pt-4 pb-10 transition-all duration-500 outline-none shadow-inner placeholder:text-slate-600 resize-none font-light leading-relaxed focus:ring-2"
+                :class="currentPalette.focus"
+                placeholder="Write your thoughts here..."
+              ></textarea>
+              
+              <!-- Integrated Word Counter -->
+              <div class="absolute bottom-3 right-5 flex items-center pointer-events-none">
+                <span class="text-[10px] uppercase tracking-widest font-medium transition-colors duration-500" 
+                      :class="getWordCount(answersMap[q.id]) >= 20 ? currentPalette.textPrimary : 'text-slate-500'">
+                  {{ getWordCount(answersMap[q.id]) }} <span class="text-[9px] opacity-70">words</span>
+                  <span v-if="getWordCount(answersMap[q.id]) < 20" class="lowercase tracking-wide font-normal ml-1 opacity-50">(aim for 20+)</span>
+                  <span v-else class="ml-1 opacity-90">- Optimal Depth</span>
+                </span>
+              </div>
+              
+              <!-- Subtle Progress Bar overlaying the bottom inside the textarea -->
+              <div class="absolute bottom-[1px] left-[1px] right-[1px] h-[3px] rounded-b-xl overflow-hidden pointer-events-none z-10">
+                 <div class="h-full transition-all duration-500 ease-out bg-gradient-to-r opacity-80" 
+                      :class="currentPalette.progress"
+                      :style="{ width: `${Math.min((getWordCount(answersMap[q.id]) / 20) * 100, 100)}%` }">
+                 </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -164,6 +184,13 @@ const currentTheme = computed(() => {
 const isLastTheme = computed(() => {
   return currentThemeIndex.value === themes.value.length - 1
 })
+
+const getWordCount = (text) => {
+  if (!text) return 0
+  // Split by spaces and filter out "words" that don't have at least one letter or number
+  // The regex includes standard letters, numbers, and common Latin accented characters (for Portuguese, Spanish, etc.)
+  return text.trim().split(/\s+/).filter(word => /[A-Za-z0-9\u00C0-\u024F]/.test(word)).length
+}
 
 onMounted(async () => {
   try {
