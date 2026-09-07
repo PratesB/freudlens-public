@@ -3,6 +3,9 @@ from google import genai
 from google.genai import types
 from .prompt import get_system_prompt
 from .schemas import ReportOutSchema
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -16,7 +19,7 @@ async def validate_gemini_key(api_key: str) -> bool:
         return True
         
     except Exception as e:
-        print(f"API Key validation failed: {e}")
+        logger.error(f"API Key validation failed: {e}")
         return False
 
 

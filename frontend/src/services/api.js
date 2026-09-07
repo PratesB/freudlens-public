@@ -1,5 +1,5 @@
-// Base URL for the Django Ninja API
-const API_BASE_URL = 'http://localhost:8000/api'
+// Base URL for the Django Ninja API (environment variable VITE_API_URL for deploy or run in localhost without variable)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
 
 export const apiService = {
   async validateApiKey(apiKey) {
