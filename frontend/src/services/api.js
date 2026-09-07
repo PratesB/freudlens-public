@@ -4,8 +4,20 @@ const API_BASE_URL = 'http://localhost:8000/api'
 export const apiService = {
   async validateApiKey(apiKey) {
     try {
-      // Temporary mock for local validation:
-      return apiKey.length > 10
+      const response = await fetch(`${API_BASE_URL}/analysis/validate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ api_key: apiKey })
+      });
+      
+      if (!response.ok) {
+        return false;
+      }
+      
+      const data = await response.json();
+      return data.is_valid;
     } catch (error) {
       console.error("Error validating key", error)
       return false
@@ -14,24 +26,38 @@ export const apiService = {
 
   async fetchQuestions() {
     try {
-      // Temporary mock:
-      return [
-        { id: 1, text: "Question 1" },
-        { id: 2, text: "Question 2" },
-        { id: 3, text: "Question 3" }
-      ]
+      const response = await fetch(`${API_BASE_URL}/questions/`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch questions');
+      }
+      return await response.json();
     } catch (error) {
       console.error("Error fetching questions", error)
       return []
     }
   },
 
-  async generateAnalysis(apiKey, answers) {
+  async generateAnalysis(apiKey, modelName, language, answers) {
     try {
-      // Temporary mock
-      return {
-        report: "Analysis will be here"
+      const response = await fetch(`${API_BASE_URL}/analysis/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          api_key: apiKey,
+          model_name: modelName,
+          language: language,
+          answers: answers
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to generate analysis');
       }
+
+      return await response.json();
     } catch (error) {
       console.error("Error generating analysis", error)
       throw error
