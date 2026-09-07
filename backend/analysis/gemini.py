@@ -37,7 +37,7 @@ async def call_gemini(api_key: str, model_name: str, language: str, answers: lis
             response_mime_type="application/json",
             response_schema=ReportOutSchema,
             temperature=0.7,
-            max_output_tokens=2500,
+            max_output_tokens=8000,
         ),
     )
     

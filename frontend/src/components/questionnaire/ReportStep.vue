@@ -36,7 +36,17 @@
     <div v-else-if="report" class="w-full max-w-4xl flex flex-col items-center print:max-w-none print:w-full print:block">
       
       <!-- Actions Bar (Hidden on Print) -->
-      <div class="w-full flex justify-end mb-6 print:hidden">
+      <div class="w-full flex justify-end gap-4 mb-6 print:hidden">
+        <button 
+          @click="emit('restart')"
+          class="group relative overflow-hidden cursor-pointer text-xs uppercase tracking-[0.15em] bg-transparent hover:bg-white/5 text-slate-400 hover:text-white font-medium py-3 px-6 rounded-full transition-all duration-500 border border-slate-700/50 hover:border-slate-500"
+        >
+          <span class="relative z-10 flex items-center gap-2">
+            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Start New
+          </span>
+        </button>
+
         <button 
           @click="printReport"
           class="group relative overflow-hidden cursor-pointer text-xs uppercase tracking-[0.15em] bg-[#03091e] hover:bg-[#051033] text-white font-medium py-3 px-8 rounded-full transition-all duration-500 border border-blue-500/30 hover:border-blue-400/60 shadow-[0_0_15px_rgba(59,130,246,0.1)] hover:shadow-[0_0_25px_rgba(59,130,246,0.4)]"
@@ -66,7 +76,7 @@
             <p><span class="font-bold text-slate-800">Date:</span> {{ currentDate }}</p>
             <p><span class="font-bold text-slate-800">Time:</span> {{ currentTime }}</p>
             <p><span class="font-bold text-slate-800">Patient ID:</span> {{ patientId }}</p>
-            <p><span class="font-bold text-slate-800">Analyst:</span> {{ sessionData.model }}</p>
+            <p><span class="font-bold text-slate-800">Analyst:</span> {{ actualModel }}</p>
           </div>
         </div>
 
@@ -118,7 +128,7 @@
               <div class="h-16 border-b border-slate-800 mb-2 relative">
                 <!-- Fake signature -->
                 <div class="absolute bottom-0 left-0 w-full font-['Brush_Script_MT',cursive] text-4xl text-slate-800 opacity-80 -rotate-3 select-none">
-                  {{ sessionData.model }}
+                  {{ actualModel }}
                 </div>
               </div>
               <p class="font-sans text-xs uppercase tracking-widest text-slate-600 font-bold">Simulated Analyst Persona</p>
@@ -154,6 +164,7 @@ const emit = defineEmits(['restart'])
 const isLoading = ref(true)
 const error = ref(null)
 const report = ref(null)
+const actualModel = ref('')
 
 // For the document header
 const now = new Date()
@@ -168,6 +179,7 @@ onMounted(async () => {
     // Call the backend endpoint
     const response = await apiService.generateAnalysis(apiKey, model, language, answers)
     report.value = response
+    actualModel.value = response.actual_model_used || model
   } catch (e) {
     error.value = e.message || 'An unexpected error occurred.'
   } finally {

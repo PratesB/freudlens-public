@@ -1,6 +1,6 @@
 from ninja import Router
 from http import HTTPStatus
-from .schemas import AnalyzeInSchema, ReportOutSchema, ValidateKeyInSchema, ValidateKeyOutSchema
+from .schemas import AnalyzeInSchema, ReportResponseSchema, ValidateKeyInSchema, ValidateKeyOutSchema
 from .gemini import call_gemini, validate_gemini_key
 
 
@@ -17,7 +17,7 @@ async def validate_key(request, payload: ValidateKeyInSchema):
 
 
 @analysis_router.post('/', response={
-    HTTPStatus.OK: ReportOutSchema,
+    HTTPStatus.OK: ReportResponseSchema,
     HTTPStatus.INTERNAL_SERVER_ERROR: dict
 })
 async def generate_analysis(request, payload: AnalyzeInSchema):
@@ -41,6 +41,7 @@ async def generate_analysis(request, payload: AnalyzeInSchema):
                 language=payload.language.value,
                 answers=payload.answers
             )
+            analysis_data['actual_model_used'] = current_model
             print(f"Success with {current_model}!")
             return HTTPStatus.OK, analysis_data
             
@@ -51,4 +52,4 @@ async def generate_analysis(request, payload: AnalyzeInSchema):
             
   
     print("All fallback models failed.")
-    return HTTPStatus.INTERNAL_SERVER_ERROR, {"detail": f"Failed to generate analysis. All models failed. Check your API Key or Quota. Last error: {last_error}"}
+    return HTTPStatus.INTERNAL_SERVER_ERROR, {"detail": "The analysis could not be completed because the AI models are currently overwhelmed or unreachable. Please return to start and try again."}
