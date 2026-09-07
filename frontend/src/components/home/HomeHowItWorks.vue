@@ -15,100 +15,56 @@
           How FreudLens works
         </h2>
         <p class="text-slate-400 mt-6 text-lg max-w-2xl mx-auto font-light">
-          A clinical approach to analyzing your code. The entire session happens locally in your browser. Swipe or use the buttons to proceed.
+          A clinical approach to analyzing your code. The entire session happens locally in your browser.
         </p>
       </div>
 
-      <!-- The Carousel -->
-      <div class="relative w-full max-w-md md:max-w-4xl mx-auto reveal-on-scroll">
+      <!-- The Grid -->
+      <div class="w-full max-w-[90rem] mx-auto reveal-on-scroll">
         
-        <!-- Controls (Desktop/Buttons) -->
-        <div class="absolute top-1/2 -left-4 md:-left-16 -translate-y-1/2 z-20 hidden md:block">
-          <button @click="scrollPrev" class="w-12 h-12 rounded-full bg-[#020617] border border-blue-900/50 flex items-center justify-center text-blue-400 hover:bg-blue-900/30 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-pointer">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-          </button>
-        </div>
-        <div class="absolute top-1/2 -right-4 md:-right-16 -translate-y-1/2 z-20 hidden md:block">
-          <button @click="scrollNext" class="w-12 h-12 rounded-full bg-[#020617] border border-blue-900/50 flex items-center justify-center text-blue-400 hover:bg-blue-900/30 hover:border-blue-500 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] cursor-pointer">
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-          </button>
-        </div>
-
         <!-- Cards Container -->
-        <div 
-          ref="carouselRef" 
-          class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-12 hide-scrollbar scroll-smooth"
-          @scroll="handleScroll"
-        >
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-8" style="perspective: 2000px;">
           
-          <!-- Card 1 -->
-          <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#020617]/40 backdrop-blur-md border border-slate-800/80 rounded-[2rem] p-8 shadow-2xl flex flex-col group hover:border-blue-500/50 transition-colors duration-500">
-            <div class="w-12 h-12 rounded-full border-2 border-blue-500/30 bg-blue-950/30 flex items-center justify-center text-blue-400 font-mono text-sm mb-6 relative">
-              01
-              <div class="absolute inset-0 bg-blue-500/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </div>
-            <h3 class="text-xl font-serif italic text-white/90 mb-2">"Provide the key to your subconscious."</h3>
-            <h4 class="text-lg font-bold text-blue-400 mb-3 tracking-wide">The Key</h4>
-            <p class="text-slate-400 text-sm leading-relaxed mb-6 flex-grow">
-              You must supply your own Google Gemini API Key. <strong class="text-slate-300">This is a BYOK platform.</strong> Your key runs strictly locally and is never sent to our servers.
-            </p>
-            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="inline-flex items-center justify-center gap-1.5 text-xs text-blue-400 hover:text-white font-medium transition-colors bg-blue-950/30 px-4 py-2.5 rounded-lg border border-blue-900/50 hover:border-blue-500 mt-auto">
-              Get a Free API Key
-              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-            </a>
-          </div>
+          <div 
+            v-for="(card, index) in procedureCards" :key="index"
+            @mousemove="handleMouseMove($event, index)"
+            @mouseleave="handleMouseLeave(index)"
+            :style="{ transform: cardTransforms[index] }"
+            class="relative bg-gradient-to-b from-white/[0.04] to-transparent backdrop-blur-xl border border-white/[0.05] border-t-white/[0.15] rounded-[2rem] p-8 xl:p-10 shadow-[0_10px_40px_rgba(0,0,0,0.5)] flex flex-col group transition-transform duration-200 ease-out overflow-hidden"
+            style="transform-style: preserve-3d; will-change: transform;"
+          >
+            <!-- Spotlight / Glow -->
+            <div 
+              class="absolute inset-0 z-0 pointer-events-none transition-opacity duration-300"
+              :style="spotlightStyles[index]"
+            ></div>
 
-          <!-- Card 2 -->
-          <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#020617]/40 backdrop-blur-md border border-slate-800/80 rounded-[2rem] p-8 shadow-2xl flex flex-col group hover:border-emerald-500/50 transition-colors duration-500">
-            <div class="w-12 h-12 rounded-full border-2 border-emerald-500/30 bg-emerald-950/30 flex items-center justify-center text-emerald-400 font-mono text-sm mb-6 relative">
-              02
-              <div class="absolute inset-0 bg-emerald-500/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <!-- Ghost Number -->
+            <div 
+              class="absolute -right-4 -top-8 text-[180px] font-black text-white/[0.02] font-mono leading-none pointer-events-none select-none transition-all duration-700 group-hover:-translate-y-2"
+              :class="card.ghostHoverClass"
+            >
+              {{ card.number }}
             </div>
-            <h3 class="text-xl font-serif italic text-white/90 mb-2">"Establishing a secure dialogue."</h3>
-            <h4 class="text-lg font-bold text-emerald-500 mb-3 tracking-wide">The Handshake</h4>
-            <p class="text-slate-400 text-sm leading-relaxed flex-grow">
-              The framework instantly validates your API key locally. Once verified, the connection to the engine is established and the session begins seamlessly.
-            </p>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#020617]/40 backdrop-blur-md border border-slate-800/80 rounded-[2rem] p-8 shadow-2xl flex flex-col group hover:border-indigo-500/50 transition-colors duration-500">
-            <div class="w-12 h-12 rounded-full border-2 border-indigo-500/30 bg-indigo-950/30 flex items-center justify-center text-indigo-400 font-mono text-sm mb-6 relative">
-              03
-              <div class="absolute inset-0 bg-indigo-500/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            
+            <div class="relative z-10 flex flex-col h-full pointer-events-none" style="transform: translateZ(30px);">
+              <h3 class="text-xl font-serif italic text-white/90 mb-6 mt-4">"{{ card.quote }}"</h3>
+              <h4 class="text-sm font-bold mb-3 tracking-widest uppercase" :class="card.titleClass">{{ card.title }}</h4>
+              <p class="text-slate-400 text-sm leading-relaxed mb-8 flex-grow">
+                <template v-for="(segment, i) in card.description" :key="i">
+                  <strong v-if="segment.bold" class="text-slate-300">{{ segment.text }}</strong>
+                  <template v-else>{{ segment.text }}</template>
+                </template>
+              </p>
+              
+              <a v-if="card.action" :href="card.action.url" target="_blank" class="pointer-events-auto inline-flex items-center justify-center gap-1.5 text-xs hover:text-white font-medium transition-colors bg-white/5 px-4 py-2.5 rounded-lg border border-white/10 hover:border-white/30 mt-auto w-fit" :class="card.actionTextClass">
+                {{ card.action.text }}
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
             </div>
-            <h3 class="text-xl font-serif italic text-white/90 mb-2">"Answer with your first instinct."</h3>
-            <h4 class="text-lg font-bold text-indigo-400 mb-3 tracking-wide">The Assessment</h4>
-            <p class="text-slate-400 text-sm leading-relaxed flex-grow">
-              You will face <strong class="text-slate-300">21 multiple-choice questions</strong> designed to probe your development habits, mathematically distributed across psychoanalytical domains.
-            </p>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="snap-center shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] bg-[#020617]/40 backdrop-blur-md border border-slate-800/80 rounded-[2rem] p-8 shadow-2xl flex flex-col group hover:border-purple-500/50 transition-colors duration-500">
-            <div class="w-12 h-12 rounded-full border-2 border-purple-500/30 bg-purple-950/30 flex items-center justify-center text-purple-400 font-mono text-sm mb-6 relative">
-              04
-              <div class="absolute inset-0 bg-purple-500/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </div>
-            <h3 class="text-xl font-serif italic text-white/90 mb-2">"Confront your hidden patterns."</h3>
-            <h4 class="text-lg font-bold text-purple-400 mb-3 tracking-wide">The Core Dump</h4>
-            <p class="text-slate-400 text-sm leading-relaxed flex-grow">
-              At the end of the questions, the engine processes your choices and outputs a brutally honest, deeply personal psychological profile of you as a developer.
-            </p>
           </div>
 
         </div>
-
-        <!-- Pagination Dots -->
-        <div class="flex justify-center gap-2 mt-4 md:hidden">
-          <button 
-            v-for="index in 4" :key="index"
-            @click="scrollToCard(index - 1)"
-            class="w-2.5 h-2.5 rounded-full transition-colors duration-300"
-            :class="activeIndex === (index - 1) ? 'bg-blue-500' : 'bg-slate-800'"
-          ></button>
-        </div>
-
       </div>
 
       <!-- Start Diagnostics Action Area & Security Note -->
@@ -154,40 +110,108 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const carouselRef = ref(null)
-const activeIndex = ref(0)
+
+const procedureCards = [
+  {
+    number: '01',
+    ghostHoverClass: 'group-hover:text-blue-500/[0.05]',
+    titleClass: 'text-blue-400',
+    actionTextClass: 'text-blue-400',
+    spotlightColor: 'rgba(59, 130, 246, 0.15)',
+    quote: 'Provide the key to your subconscious.',
+    title: 'The Key',
+    description: [
+      { text: 'You must supply your own Google Gemini API Key. ' },
+      { text: 'This is a BYOK platform.', bold: true },
+      { text: ' Your key runs strictly locally and is never sent to our servers.' }
+    ],
+    action: { text: 'Get a Free API Key', url: 'https://aistudio.google.com/app/apikey' }
+  },
+  {
+    number: '02',
+    ghostHoverClass: 'group-hover:text-emerald-500/[0.05]',
+    titleClass: 'text-emerald-500',
+    actionTextClass: 'text-emerald-500',
+    spotlightColor: 'rgba(16, 185, 129, 0.15)',
+    quote: 'Establishing a secure dialogue.',
+    title: 'The Handshake',
+    description: [
+      { text: 'The framework instantly validates your API key locally. Once verified, the connection to the engine is established and the session begins seamlessly.' }
+    ],
+    action: null
+  },
+  {
+    number: '03',
+    ghostHoverClass: 'group-hover:text-indigo-500/[0.05]',
+    titleClass: 'text-indigo-400',
+    actionTextClass: 'text-indigo-400',
+    spotlightColor: 'rgba(99, 102, 241, 0.15)',
+    quote: 'Answer with your first instinct.',
+    title: 'The Assessment',
+    description: [
+      { text: 'You will face ' },
+      { text: '21 multiple-choice questions', bold: true },
+      { text: ' designed to probe your development habits, mathematically distributed across psychoanalytical domains.' }
+    ],
+    action: null
+  },
+  {
+    number: '04',
+    ghostHoverClass: 'group-hover:text-purple-500/[0.05]',
+    titleClass: 'text-purple-400',
+    actionTextClass: 'text-purple-400',
+    spotlightColor: 'rgba(168, 85, 247, 0.15)',
+    quote: 'Confront your hidden patterns.',
+    title: 'The Core Dump',
+    description: [
+      { text: 'At the end of the questions, the engine processes your choices and outputs a brutally honest, deeply personal psychological profile of you as a developer.' }
+    ],
+    action: null
+  }
+]
+
+const cardTransforms = ref([
+  'rotateX(0deg) rotateY(0deg)',
+  'rotateX(0deg) rotateY(0deg)',
+  'rotateX(0deg) rotateY(0deg)',
+  'rotateX(0deg) rotateY(0deg)'
+])
+
+const spotlightStyles = ref([
+  { opacity: 0, background: '' },
+  { opacity: 0, background: '' },
+  { opacity: 0, background: '' },
+  { opacity: 0, background: '' }
+])
+
+const handleMouseMove = (event, index) => {
+  const card = event.currentTarget
+  const rect = card.getBoundingClientRect()
+  const x = event.clientX - rect.left
+  const y = event.clientY - rect.top
+
+  const centerX = rect.width / 2
+  const centerY = rect.height / 2
+  
+  // Calculate rotation angles (max 10 degrees)
+  const rotateX = ((y - centerY) / centerY) * -10
+  const rotateY = ((x - centerX) / centerX) * 10
+  
+  cardTransforms.value[index] = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+  
+  spotlightStyles.value[index] = {
+    opacity: 1,
+    background: `radial-gradient(circle 350px at ${x}px ${y}px, ${procedureCards[index].spotlightColor}, transparent 70%)`
+  }
+}
+
+const handleMouseLeave = (index) => {
+  cardTransforms.value[index] = 'rotateX(0deg) rotateY(0deg)'
+  spotlightStyles.value[index].opacity = 0
+}
 
 const start = () => {
   router.push('/questionnaire')
-}
-
-const scrollNext = () => {
-  if (carouselRef.value) {
-    const cardWidth = carouselRef.value.offsetWidth
-    carouselRef.value.scrollBy({ left: cardWidth, behavior: 'smooth' })
-  }
-}
-
-const scrollPrev = () => {
-  if (carouselRef.value) {
-    const cardWidth = carouselRef.value.offsetWidth
-    carouselRef.value.scrollBy({ left: -cardWidth, behavior: 'smooth' })
-  }
-}
-
-const scrollToCard = (index) => {
-  if (carouselRef.value) {
-    const cardWidth = carouselRef.value.offsetWidth
-    carouselRef.value.scrollTo({ left: cardWidth * index, behavior: 'smooth' })
-  }
-}
-
-const handleScroll = () => {
-  if (carouselRef.value) {
-    const scrollLeft = carouselRef.value.scrollLeft
-    const cardWidth = carouselRef.value.offsetWidth
-    activeIndex.value = Math.round(scrollLeft / cardWidth)
-  }
 }
 </script>
 
