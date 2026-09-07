@@ -56,3 +56,6 @@ class ReportOutSchema(Schema):
     past_influence: str
     conclusion: str
 
+
+class ReportResponseSchema(ReportOutSchema):
+    actual_model_used: str

@@ -37,9 +37,18 @@ async def call_gemini(api_key: str, model_name: str, language: str, answers: lis
             response_mime_type="application/json",
             response_schema=ReportOutSchema,
             temperature=0.7,
-            max_output_tokens=2500,
+            max_output_tokens=8000,
         ),
     )
     
-
-    return json.loads(response.text)
+    # Fallback models (like gemini-3.6-flash and 3.5-flash) sometimes wrap the JSON response
+    # in markdown blocks (```json ... ```) even when response_mime_type is set to application/json.
+    # This extraction ensures json.loads() doesn't fail with an "Unterminated string" error.
+    text = response.text
+    if text:
+        start_idx = text.find('{')
+        end_idx = text.rfind('}')
+        if start_idx != -1 and end_idx != -1:
+            text = text[start_idx:end_idx+1]
+            
+    return json.loads(text)

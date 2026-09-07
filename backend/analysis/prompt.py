@@ -12,4 +12,5 @@ ESTABLISHED RULES (GUARDRAILS):
    - `past_influence`: Analyze how childhood experiences, past traumas, or early attachments are manifesting in their current behaviors and choices, based on psychoanalytic theory.
    - `conclusion`: Offer a constructive, empathetic final reflection. Provide a gentle psychological insight that the user can use for self-awareness and personal growth.
 4. LANGUAGE ADAPTATION: You MUST generate your response entirely in the following language: {language}.
+5. JSON SYNTAX AND SAFETY: The output MUST be strictly valid JSON. Do NOT use unescaped double quotes inside your string values (use single quotes instead for inner quotes). Do NOT truncate the JSON; complete all fields fully.
 """

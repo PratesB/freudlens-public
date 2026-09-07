@@ -12,7 +12,7 @@
           <span class="text-blue-400 text-xs font-bold tracking-[0.3em] uppercase block">The Freudian Legacy</span>
           <h2 class="text-4xl lg:text-5xl font-bold text-white tracking-tight drop-shadow-md">His Contributions to the World</h2>
           <p class="text-slate-400 font-light text-lg md:text-xl leading-relaxed">
-            He didn't just map the mind; he gave humanity the vocabulary to understand it. These three discoveries permanently altered the course of human thought.
+            He didn't just map the mind, he gave humanity the vocabulary to understand it. These three discoveries permanently altered the course of human thought.
           </p>
         </div>
 
@@ -20,7 +20,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
           
           <!-- Concept 1 -->
-          <div class="relative rounded-[2rem] p-8 md:p-10 backdrop-blur-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/5 bg-gradient-to-br from-[#020617]/90 to-blue-900/10 hover:-translate-y-2 transition-transform duration-500 group overflow-hidden">
+          <div :ref="(el) => { if (el && !cardsRef.includes(el)) cardsRef.push(el) }" class="relative rounded-[2rem] p-8 md:p-10 backdrop-blur-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/5 bg-gradient-to-br from-[#020617]/90 to-blue-900/10 hover:-translate-y-2 transition-all duration-[1500ms] ease-out group overflow-hidden opacity-0 blur-md translate-y-8 delay-300">
             <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             
             <div class="relative z-10">
@@ -33,7 +33,7 @@
           </div>
 
           <!-- Concept 2 -->
-          <div class="relative rounded-[2rem] p-8 md:p-10 backdrop-blur-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/5 bg-gradient-to-b from-[#020617]/90 to-blue-900/10 hover:-translate-y-2 transition-transform duration-500 group overflow-hidden">
+          <div :ref="(el) => { if (el && !cardsRef.includes(el)) cardsRef.push(el) }" class="relative rounded-[2rem] p-8 md:p-10 backdrop-blur-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/5 bg-gradient-to-b from-[#020617]/90 to-blue-900/10 hover:-translate-y-2 transition-all duration-[1500ms] ease-out group overflow-hidden opacity-0 blur-md translate-y-8 delay-[600ms]">
             <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             
             <div class="relative z-10">
@@ -46,7 +46,7 @@
           </div>
 
           <!-- Concept 3 -->
-          <div class="relative rounded-[2rem] p-8 md:p-10 backdrop-blur-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/5 bg-gradient-to-bl from-[#020617]/90 to-blue-900/10 hover:-translate-y-2 transition-transform duration-500 group overflow-hidden">
+          <div :ref="(el) => { if (el && !cardsRef.includes(el)) cardsRef.push(el) }" class="relative rounded-[2rem] p-8 md:p-10 backdrop-blur-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)] border border-white/5 bg-gradient-to-bl from-[#020617]/90 to-blue-900/10 hover:-translate-y-2 transition-all duration-[1500ms] ease-out group overflow-hidden opacity-0 blur-md translate-y-8 delay-[900ms]">
             <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.04] to-transparent pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
             
             <div class="relative z-10">
@@ -65,4 +65,37 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const cardsRef = ref([])
+const observer = ref(null)
+
+onMounted(() => {
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Remove the starting states (opacity-0, blur-md, translate-y-8)
+        entry.target.classList.remove('opacity-0', 'blur-md', 'translate-y-8')
+        // Add the end states (opacity-100, blur-none, translate-y-0)
+        entry.target.classList.add('opacity-100', 'blur-none', 'translate-y-0')
+        
+        // Unobserve so the animation only happens once
+        observer.value.unobserve(entry.target)
+      }
+    })
+  }, { 
+    threshold: 0.2 // Trigger when 20% of the card is visible
+  })
+
+  // Observe each card
+  cardsRef.value.forEach(card => {
+    if (card) observer.value.observe(card)
+  })
+})
+
+onUnmounted(() => {
+  if (observer.value) {
+    observer.value.disconnect()
+  }
+})
 </script>
