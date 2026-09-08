@@ -54,7 +54,7 @@
               class="block text-slate-200 text-lg mb-4 leading-relaxed font-medium transition-colors duration-500"
               :class="currentPalette.hoverText"
             >
-              {{ q.text }}
+              {{ q.displayNumber }}. {{ q.text }}
             </label>
             <div class="relative">
               <textarea
@@ -198,7 +198,10 @@ onMounted(async () => {
     
     // Group questions by subject
     const grouped = {}
+    let globalIndex = 1
     rawQuestions.forEach(q => {
+      q.displayNumber = globalIndex++
+      
       if (!grouped[q.subject]) {
         grouped[q.subject] = {
           subject: q.subject,
