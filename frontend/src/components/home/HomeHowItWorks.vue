@@ -15,7 +15,7 @@
           How FreudLens works
         </h2>
         <p class="text-slate-400 mt-6 text-lg max-w-2xl mx-auto font-light">
-          A clinical approach to analyzing your code. The entire session happens locally in your browser.
+          A clinical approach to understanding your mind. The entire session happens locally and privately in your browser.
         </p>
       </div>
 
